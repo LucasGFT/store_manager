@@ -12,6 +12,12 @@ const findById = async (id) => {
   return { type: ID_NOT_INCLUSE, message: 'Product not found' };
 };
 
+const t = async () => {
+  const a = await findById(5);
+  console.log(a);
+};
+
+t();
 module.exports = {
   findAll,
   findById,
