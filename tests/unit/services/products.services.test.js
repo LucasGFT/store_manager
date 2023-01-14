@@ -40,6 +40,19 @@ describe("Verificando service pessoa passageira", function () {
       expect(result.type).to.be.equal("ID_NOT_INCLUSE");
       // expect(result.message).to.deep.equal(testeService);
     });
+    it("Inserir produto", async function () {
+      // arrange
+      const name = { name: "Lucas" };
+
+      sinon.stub(productsModel, 'insert').resolves(testeService[0]);
+      sinon.stub(productsModel, 'findById').resolves(testeService[0]);
+      // act
+      const result = await productsServices.insert(name);
+      // const { message } = result;
+
+      // assert
+      expect(result.type).to.be.equal(null);
+    });
   });
 
   afterEach(function () {

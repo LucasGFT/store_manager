@@ -12,21 +12,13 @@ const findById = async (id) => {
   return { type: ID_NOT_INCLUSE, message: 'Product not found' };
 };
 
-const t = async () => {
-  const a = await findById(5);
-  console.log(a);
+const insert = async (product) => {
+  const produto = await productsModel.insert(product);
+  return { type: null, message: produto };
 };
 
-t();
 module.exports = {
   findAll,
   findById,
+  insert,
 };
-
-// const listPassengers = async (_req, res) => {
-//   const { type, message } = await passengerService.findAll();
-
-//   if (type) return res.status(mapError(type)).json(message);
-
-//   res.status(200).json(message);
-// };

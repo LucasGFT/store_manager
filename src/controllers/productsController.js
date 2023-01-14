@@ -17,6 +17,12 @@ const listProductById = async (req, res) => {
   return res.status(200).json(a.message);
 };
 
+const inserirProduto = async (req, res) => {
+  const nome = req.body;
+  const { message } = await productsServices.insert(nome);
+
+  return res.status(201).json(message);
+};
 // const a = async () => {
 //   const { status, json } = await frisby.get('localhost:3000/products/999');
 //   console.log(status);
@@ -48,4 +54,5 @@ const listProductById = async (req, res) => {
 module.exports = {
   listProducts,
   listProductById,
+  inserirProduto,
 };

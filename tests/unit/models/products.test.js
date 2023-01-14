@@ -16,12 +16,20 @@ describe("Teste de lista de produtos", () => {
   });
   it("Recuperando lista a partir de um id", async () => {
     // Arrange
-    console.log("sasas");
     sinon.stub(connection, "execute").resolves([[modelMock][0]]);
     // Act
     const result = await productsModel.findById(1);
     // Assert
     expect(result).to.be.deep.equal(modelMock[0]);
+  });
+  it("Adicionar na lista", async () => {
+    // Arrange
+    const name = { name: 'Lucas' }
+    sinon.stub(connection, "execute").resolves([modelMock]);
+    // Act
+    const result = await productsModel.insert(name);
+    // Assert
+    expect(result).to.be.deep.equal({ id: 1, name: "Martelo de Thor" });
   });
   afterEach(function () {
     sinon.restore();

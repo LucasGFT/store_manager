@@ -1,5 +1,3 @@
-// const camelize = require("camelize");
-// const snakeize = require("snakeize");
 const connection = require('./connection');
 
 const findAll = async () => {
@@ -15,23 +13,19 @@ const findById = async (productId) => {
   return product;
 };
 
-// const insert = async (passenger) => {
-//   const columns = Object.keys(snakeize(passenger)).join(", ");
+const insert = async ({ name }) => {
+  // INSERT INTO StoreManager.products (name) VALUE ('Homem de Ferro')
+  const [{ insertId }] = await connection.execute(
+    'INSERT INTO StoreManager.products (name) VALUE (?)',
+    [name],
+  );
 
-//   const placeholders = Object.keys(passenger)
-//     .map((_key) => "?")
-//     .join(", ");
-
-//   const [{ insertId }] = await connection.execute(
-//     `INSERT INTO passengers (${columns}) VALUE (${placeholders})`,
-//     [...Object.values(passenger)]
-//   );
-
-//   return insertId;
-// };
+  const pessoaAdicionada = await findById(insertId);
+    return pessoaAdicionada;
+};
 
 module.exports = {
   findAll,
   findById,
-  //   insert,
+    insert,
 };
