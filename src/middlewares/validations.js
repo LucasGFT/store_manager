@@ -9,13 +9,12 @@ const validationName = async (req, res, next) => {
   }
   next();
 };
-const { salesModel } = require('../models');
+const { productsModel } = require('../models');
 
-const salesValidacaoDois = async (res, req, next, array) => {
-  const a = await salesModel.cadastroVenda(array);
-  const { listProducts, itemsSold } = a;
-  const todosIdProdutos = listProducts.map((element) => element.id);
-  const teste = itemsSold.every((element) =>
+const salesValidacaoDois = async (res, _req, next, array) => {
+  const a = await productsModel.findAll();
+  const todosIdProdutos = a.map((element) => element.id);
+  const teste = array.every((element) =>
     todosIdProdutos.includes(element.productId));
   if (!teste) { return res.status(404).json({ message: 'Product not found' }); }
   next();
