@@ -89,10 +89,10 @@ const findSaleById = async (id) => {
 
 //   quantity: 55,
 // // // };
-const a = async (ss) => {
-  await findSaleById(ss);
-};
-a(1);
+// const a = async (ss) => {
+//   await findSaleById(ss);
+// };
+// a(1);
 // const objTest = [
 //   {
 //     productId: 2,
