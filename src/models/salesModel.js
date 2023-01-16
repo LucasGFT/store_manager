@@ -18,8 +18,8 @@ const cadastroVenda = async (obj) => {
   };
   const a = obj.map(
     (e) =>
-      `INSERT INTO sales_products (sale_id, product_id, quantity) VALUE (${id}, ${
-      e.productId}, ${e.quantity});`,
+      `INSERT INTO StoreManager.sales_products (
+        sale_id, product_id, quantity) VALUE (${id}, ${e.productId}, ${e.quantity});`,
   );
   a.map((el) => connection.execute(el));
   return novoObj;
@@ -27,12 +27,14 @@ const cadastroVenda = async (obj) => {
 
 const selecionarSales = async () => {
   const [resultado] = await connection.execute(
-    'SELECT * FROM sales;',
+    'SELECT * FROM StoreManager.sales;',
   );
   return resultado;
 };
 const selecionarSalesProduct = async () => {
-  const [resultado] = await connection.execute('SELECT * FROM sales_products;');
+  const [resultado] = await connection.execute(
+    'SELECT * FROM StoreManager.sales_products;',
+  );
   return resultado;
 };
 
@@ -68,7 +70,8 @@ const listaTodasSales = async () => {
 const findSaleById = async (id) => {
   const sales = await selecionarSales(); 
   const [resultado] = await connection.execute(
-    'SELECT * FROM sales_products WHERE sale_id = ?', [id],
+    'SELECT * FROM StoreManager.sales_products WHERE sale_id = ?',
+    [id],
   );
   const objAntigo = await criarObjResposta(sales, resultado);
   const resposta = objAntigo.map((element) => {
