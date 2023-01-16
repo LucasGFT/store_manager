@@ -8,17 +8,6 @@ const cadastraDataVenda = async () => {
   return insertId;
 };
 
-// const objTest = [
-//   {
-//     productId: 2,
-//     quantity: 1,
-//   },
-//   {
-//     productId: 2,
-//     quantity: 5,
-//   },
-// ];
-
 const cadastroVenda = async (obj) => {
   const id = await cadastraDataVenda();
   const listProducts = await findAll();
@@ -36,6 +25,63 @@ const cadastroVenda = async (obj) => {
   return novoObj;
 };
 
+const selecionarSales = async () => {
+  const [resultado] = await connection.execute(
+    'SELECT * FROM sales;',
+  );
+  return resultado;
+};
+const selecionarSalesProduct = async () => {
+  const [resultado] = await connection.execute('SELECT * FROM sales_products;');
+  return resultado;
+};
+
+const criarObjResposta = async (sales, salesProduct) => {
+  // console.log(sales);
+  // console.log(length);
+  const { length } = salesProduct;
+  const tt = [];
+  for (let index = 0; index < length; index += 1) {
+    sales.forEach((element) => {
+      if (element.id === salesProduct[index].sale_id) {
+        const obj = {
+          saleId: salesProduct[index].sale_id,
+          date: element.date,
+          productId: salesProduct[index].product_id,
+          quantity: salesProduct[index].quantity,
+        };
+        tt.push(obj);
+      }
+    });
+  }
+  return tt;
+};
+
+const listaTodasSales = async () => {
+  // console.log(salesProduct);
+  const sales = await selecionarSales(); 
+  const salesProduct = await selecionarSalesProduct();
+  const obj = await criarObjResposta(sales, salesProduct);
+  return obj;
+};
+
+const findSaleById = async (id) => {
+  const sales = await selecionarSales(); 
+  const [resultado] = await connection.execute(
+    'SELECT * FROM sales_products WHERE sale_id = ?', [id],
+  );
+  const objAntigo = await criarObjResposta(sales, resultado);
+  const resposta = objAntigo.map((element) => {
+    const objCerto = {
+      date: element.date,
+      productId: element.productId,
+      quantity: element.quantity,
+    };
+    return objCerto;
+  });
+  return resposta;
+};
+
 // const test = {
 //   saleId: 1,
 //   productId: 5,
@@ -43,12 +89,24 @@ const cadastroVenda = async (obj) => {
 
 //   quantity: 55,
 // // // };
-// const a = async (ss) => {
-//   console.log(await cadastroVenda(ss));
-// };
-// a(objTest);
+const a = async (ss) => {
+  await findSaleById(ss);
+};
+a(1);
+// const objTest = [
+//   {
+//     productId: 2,
+//     quantity: 1,
+//   },
+//   {
+//     productId: 2,
+//     quantity: 5,
+//   },
+// ];
 
 module.exports = {
   cadastroVenda,
   cadastraDataVenda,
+  listaTodasSales,
+  findSaleById,
 };
