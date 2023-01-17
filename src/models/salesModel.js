@@ -85,37 +85,6 @@ const findSaleById = async (id) => {
   return resposta;
 };
 
-// const test = {
-//   saleId: 1,
-//   productId: 5,
-//    // 1 ou 2, 1 ao 5, qlq
-
-//   quantity: 55,
-// // // };
-// const objTest = [
-//   {
-//     productId: 2,
-//     quantity: 1,
-//   },
-//   {
-//     productId: 2,
-//     quantity: 5,
-//   },
-// ];
-
-// const t = async () => {
-//   // const sales = await selecionarSales();
-//   const salesProduct = await selecionarSalesProduct();
-//   const result = await criarObjResposta(
-//     [{ id: 1, date: '2023-01-17T01:35:43.000Z' }],
-//     [salesProduct[0]],
-//   );
-// //   console.log(sales);
-// //   console.log(salesProduct);
-//   console.log(result[0]);
-// };
-// t();
-
 module.exports = {
   cadastroVenda,
   cadastraDataVenda,

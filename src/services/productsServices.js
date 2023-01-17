@@ -17,8 +17,15 @@ const insert = async (product) => {
   return { type: null, message: produto };
 };
 
+const atualizarProducts = async (name, id) => {
+  const atualiza = await productsModel.atualizarProducts(name, id);
+  if (atualiza > 0) return { type: null, message: atualiza };
+  if (atualiza === 0) return { type: 'Product not found', message: atualiza };
+};
+
 module.exports = {
   findAll,
   findById,
   insert,
+  atualizarProducts,
 };

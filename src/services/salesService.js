@@ -15,24 +15,6 @@ const findSaleById = async (id) => {
   if (lista.length === 0) return { type: 'nao encontrou', message: lista };
   return { type: null, message: lista };
 };
-// const t = async () => {
-//   console.log(await listaTodasSales());
-// };
-// t();
-// const objTest = [
-//   {
-//     productId: 2,
-//     quantity: 1,
-//   },
-//   {
-//     productId: 2,
-//     quantity: 5,
-//   },
-// ];
-  // const temProductId = product.every((element) => element.productId);
-  // console.log(temProductId === true);
-  // const a = [1, 5, 7, 6];
-  // const test = await Promise.all(product);
 
 module.exports = {
   cadastroVenda,

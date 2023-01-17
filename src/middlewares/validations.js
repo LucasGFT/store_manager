@@ -41,7 +41,18 @@ const salesValidacao = async (req, res, next) => {
   salesValidacaoDois(res, req, next, array);
 };
 
+const atualizarProducts = async (req, res, next) => { 
+  const { name } = req.body;
+  if (name === undefined) {
+    return res.status(400).json({ message: '"name" is required' });
+  } if (name !== undefined && name.length < 5) {
+      return res.status(422).json({ message: '"name" length must be at least 5 characters long' });
+    }
+  next();
+};
+
 module.exports = {
   validationName,
   salesValidacao,
+  atualizarProducts,
 };
