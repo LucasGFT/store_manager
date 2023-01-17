@@ -84,6 +84,13 @@ const findSaleById = async (id) => {
   });
   return resposta;
 };
+const deletarVenda = async (id) => {
+  const [{ affectedRows }] = await connection.execute(
+    'DELETE FROM sales WHERE id = ?;',
+    [id],
+  );
+  return affectedRows;
+};
 
 module.exports = {
   cadastroVenda,
@@ -93,4 +100,5 @@ module.exports = {
   selecionarSales,
   selecionarSalesProduct,
   criarObjResposta,
+  deletarVenda,
 };

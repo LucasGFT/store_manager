@@ -16,8 +16,20 @@ const findSaleById = async (id) => {
   return { type: null, message: lista };
 };
 
+const deletarVenda = async (id) => {
+  const affectedRows = await salesModel.deletarVenda(id);
+  return { type: null, message: affectedRows };
+};
+
+// const t = async () => {
+//   console.log(await deletarVenda(2));
+// };
+
+// t();
+
 module.exports = {
   cadastroVenda,
   listaTodasSales,
   findSaleById,
+  deletarVenda,
 };

@@ -22,8 +22,15 @@ const findSaleById = async (req, res) => {
   return res.status(200).json(message);
 };
 
+const deletarVenda = async (req, res) => {
+  const { id } = req.params;
+  const { message } = await salesServices.deletarVenda(id);
+  if (message > 0) return res.status(204).json();
+};
+
 module.exports = {
   inserirSales,
   listaTodasSales,
   findSaleById,
+  deletarVenda,
 };
