@@ -3,7 +3,11 @@ const sinon = require("sinon");
 const { productsServices } = require("../../../src/services");
 const { productsModel } = require("../../../src/models");
 
-const { testeService, messageById } = require("./mocks/products.service.mock");
+const {
+  testeService,
+  messageById,
+  message,
+} = require("./mocks/products.service.mock");
 
 describe("Verificando service pessoa passageira", function () {
   describe("listagem de pessoas passageiras", function () {
@@ -44,8 +48,8 @@ describe("Verificando service pessoa passageira", function () {
       // arrange
       const name = { name: "Lucas" };
 
-      sinon.stub(productsModel, 'insert').resolves(testeService[0]);
-      sinon.stub(productsModel, 'findById').resolves(testeService[0]);
+      sinon.stub(productsModel, "insert").resolves(testeService[0]);
+      sinon.stub(productsModel, "findById").resolves(testeService[0]);
       // act
       const result = await productsServices.insert(name);
       // const { message } = result;
@@ -54,8 +58,24 @@ describe("Verificando service pessoa passageira", function () {
       expect(result.type).to.be.equal(null);
     });
   });
+  it("alterar produto", async function () {
+    // arrange
 
-  afterEach(function () {
-    sinon.restore();
+    sinon.stub(productsModel, "findAll").resolves(message);
+    const t = await productsServices.findAll();
+    sinon.stub(productsModel, "atualizarProducts").resolves(t.message);
+    // sinon.stub(productsModel, 'findById').resolves(testeService[0]);
+    // act
+    await productsServices.atualizarProducts("teste", 1);
+    const ss = await productsServices.findAll();
+
+    // const { message } = result;
+
+    // assert
+    expect(ss.message[0].name).to.be.equal('Martelo de Thor');
   });
+});
+
+afterEach(function () {
+  sinon.restore();
 });

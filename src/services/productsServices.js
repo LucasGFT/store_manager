@@ -23,9 +23,15 @@ const atualizarProducts = async (name, id) => {
   if (atualiza === 0) return { type: 'Product not found', message: atualiza };
 };
 
+const deletarProduto = async (id) => {
+  const affectedRows = await productsModel.deletarProduto(id);
+  if (affectedRows === 1) return { type: null, message: affectedRows };
+};
+
 module.exports = {
   findAll,
   findById,
   insert,
   atualizarProducts,
+  deletarProduto,
 };

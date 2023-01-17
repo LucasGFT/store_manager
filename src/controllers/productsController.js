@@ -36,9 +36,16 @@ const atualizarProducts = async (req, res) => {
   if (type === 'Product not found') return res.status(404).json({ message: 'Product not found' });
 };
 
+const deletarProduto = async (req, res) => {
+  const { id } = req.params;
+  const { type } = await productsServices.deletarProduto(id);
+  if (type === null) return res.status(204).json();
+};
+
 module.exports = {
   listProducts,
   listProductById,
   inserirProduto,
   atualizarProducts,
+  deletarProduto,
 };

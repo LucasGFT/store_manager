@@ -4,6 +4,8 @@ const findAll = async () => {
   const [result] = await connection.execute('SELECT * FROM StoreManager.products');
   return result;
 };
+// const t = async () => console.log(await findAll());
+// t();
 
 const findById = async (productId) => {
   const [[product]] = await connection.execute(
@@ -31,9 +33,17 @@ const atualizarProducts = async (name, id) => {
   return affectedRows;
 };
 
+const deletarProduto = async (id) => {
+  const [{ affectedRows }] = await connection.execute(
+    'DELETE FROM products WHERE id = ?;', [id],
+  );
+  return affectedRows;
+};
+
 module.exports = {
   findAll,
   findById,
   insert,
   atualizarProducts,
+  deletarProduto,
 };

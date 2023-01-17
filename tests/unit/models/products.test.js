@@ -24,12 +24,19 @@ describe("Teste de lista de produtos", () => {
   });
   it("Adicionar na lista", async () => {
     // Arrange
-    const name = { name: 'Lucas' }
+    const name = { name: "Lucas" };
     sinon.stub(connection, "execute").resolves([modelMock]);
     // Act
     const result = await productsModel.insert(name);
     // Assert
     expect(result).to.be.deep.equal({ id: 1, name: "Martelo de Thor" });
+  });
+  it("Alterar produto", async () => {
+    sinon.stub(connection, "execute").resolves([modelMock]);
+    // Act
+    await productsModel.atualizarProducts("Armadura Homem de Ferro", 3);
+    // Assert
+    expect(modelMock[3].name).to.be.deep.equal("Armadura Homem de Ferro");
   });
   afterEach(function () {
     sinon.restore();

@@ -110,4 +110,7 @@ describe("Teste de unidade do productController", function () {
   afterEach(function () {
     sinon.restore();
   });
+  // it('Alterar produto', async () => {
+
+  // })
 });

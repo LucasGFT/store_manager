@@ -51,8 +51,16 @@ const atualizarProducts = async (req, res, next) => {
   next();
 };
 
+const requisitosDeletar = async (req, res, next) => {
+  const { id } = req.params;
+  const a = await productsModel.findById(id);
+  if (a === undefined || a === null) return res.status(404).json({ message: 'Product not found' });
+  next();
+};
+
 module.exports = {
   validationName,
   salesValidacao,
   atualizarProducts,
+  requisitosDeletar,
 };

@@ -10,4 +10,5 @@ const testeService = { type: null, message };
 module.exports = {
   testeService,
   messageById,
+  message,
 };
