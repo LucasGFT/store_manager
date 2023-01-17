@@ -39,7 +39,7 @@ const selecionarSalesProduct = async () => {
 };
 
 const criarObjResposta = async (sales, salesProduct) => {
-  // console.log(sales);
+  // console.log(sales[0]);
   // console.log(length);
   const { length } = salesProduct;
   const tt = [];
@@ -92,10 +92,6 @@ const findSaleById = async (id) => {
 
 //   quantity: 55,
 // // // };
-// const a = async (ss) => {
-//   await findSaleById(ss);
-// };
-// a(1);
 // const objTest = [
 //   {
 //     productId: 2,
@@ -107,9 +103,25 @@ const findSaleById = async (id) => {
 //   },
 // ];
 
+// const t = async () => {
+//   // const sales = await selecionarSales();
+//   const salesProduct = await selecionarSalesProduct();
+//   const result = await criarObjResposta(
+//     [{ id: 1, date: '2023-01-17T01:35:43.000Z' }],
+//     [salesProduct[0]],
+//   );
+// //   console.log(sales);
+// //   console.log(salesProduct);
+//   console.log(result[0]);
+// };
+// t();
+
 module.exports = {
   cadastroVenda,
   cadastraDataVenda,
   listaTodasSales,
   findSaleById,
+  selecionarSales,
+  selecionarSalesProduct,
+  criarObjResposta,
 };

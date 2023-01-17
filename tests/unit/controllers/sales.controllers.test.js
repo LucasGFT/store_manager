@@ -29,13 +29,66 @@ describe("Testando salesController", () => {
 
     res.status = sinon.stub().returns(res);
     res.json = sinon.stub().returns();
-    sinon.stub(salesServices, "cadastroVenda").resolves(arrayTest);
+    sinon.stub(salesServices, "listaTodasSales").resolves(arrayTest);
 
     // act
     await salesController.inserirSales(req, res);
 
-    // assert
-    // expect(res.status).to.be.equal('message');
-    // expect(res.json).to.have.been.calledWith(products);
+    // // assert
+    // expect(teste).to.be.equal('message');
+    expect(res.status).to.have.been.calledWith(201);
+  });
+  it("Deve listar todas sales", async function () {
+    // arrange
+    const res = {};
+    const req = {};
+
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+    // sinon.stub(salesServices, "").resolves();
+
+    // act
+    await salesController.listaTodasSales(req, res);
+
+    // // assert
+    expect(res.status).to.have.been.calledWith(200);
+  });
+  it("Procurar sales por id", async function () {
+    // arrange
+    const res = {};
+    const req = {
+      params: {
+        id: 2,
+      },
+    };
+
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+    // sinon.stub(salesServices, "").resolves();
+
+    // act
+    await salesController.findSaleById(req, res);
+
+    // // assert
+    expect(res.status).to.have.been.calledWith(200);
+  });
+  it("Procurar sales por id errado", async function () {
+    // arrange
+    const res = {};
+    const req = {
+      params: {
+        id: 99,
+      },
+    };
+
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+    // sinon.stub(salesServices, "").resolves();
+
+    // act
+    await salesController.findSaleById(req, res);
+
+    // // assert
+    expect(res.status).to.have.been.calledWith(404);
   });
 });

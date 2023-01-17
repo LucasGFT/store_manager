@@ -15,6 +15,10 @@ const findSaleById = async (id) => {
   if (lista.length === 0) return { type: 'nao encontrou', message: lista };
   return { type: null, message: lista };
 };
+// const t = async () => {
+//   console.log(await listaTodasSales());
+// };
+// t();
 // const objTest = [
 //   {
 //     productId: 2,

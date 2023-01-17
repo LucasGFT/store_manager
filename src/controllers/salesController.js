@@ -18,13 +18,23 @@ const listaTodasSales = async (_req, res) => {
 const findSaleById = async (req, res) => {
   const { id } = req.params;
   const { type, message } = await salesServices.findSaleById(id);
+  // console.log(message);
+  // return message;
   if (type !== null) return res.status(404).json({ message: 'Sale not found' });
   return res.status(200).json(message);
 };
 
+// const obj = {
+//   req: {
+//     params: {
+//       id: 2,
+//     },
+//   },
+// };
+// const res = {};
 // const tttt = async () => {
-//   const lll = await listaTodasSales();
-//   console.log(lll);
+//   console.log(await findSaleById(obj.req, res));
+//   // console.log(lll);
 // };
 
 // tttt();
