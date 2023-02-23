@@ -42,10 +42,25 @@ const deletarProduto = async (req, res) => {
   if (type === null) return res.status(204).json();
 };
 
+const procurarNamePorPalavra = async (req, res) => {
+  const { q } = req.query;
+  const { message } = await productsServices.procurarNamePorPalavra(q);
+  return res.status(200).json(message);
+};
+
+// const s = {
+//   q: '',
+// };
+// const t = async () => {
+//   await procurarNamePorPalavra(s);
+// };
+// t();
+
 module.exports = {
   listProducts,
   listProductById,
   inserirProduto,
   atualizarProducts,
   deletarProduto,
+  procurarNamePorPalavra,
 };

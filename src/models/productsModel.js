@@ -40,10 +40,31 @@ const deletarProduto = async (id) => {
   return affectedRows;
 };
 
+const procurarNamePorPalavra = async (palavra) => {
+  if (palavra === '') {
+    const [resultSemNada] = await connection.execute(
+      'SELECT * FROM StoreManager.products',
+    );
+    return resultSemNada;
+  }
+  const [result] = await connection.execute(
+    'SELECT * FROM StoreManager.products WHERE name LIKE ?;', [`%${palavra}%`],
+  );
+  return result;
+};
+
+// const t = async () => {
+//   const a = await procurarNamePorPalavra('');
+//   console.log(a);
+//   return a;
+// };
+// t();
+
 module.exports = {
   findAll,
   findById,
   insert,
   atualizarProducts,
   deletarProduto,
+  procurarNamePorPalavra,
 };

@@ -6,6 +6,7 @@ const {
 
 const router = express.Router();
 
+router.get('/:q', productsController.procurarNamePorPalavra);
 router.get('/', productsController.listProducts);
 router.get('/:id', productsController.listProductById);
 router.post('/', validationName, productsController.inserirProduto);

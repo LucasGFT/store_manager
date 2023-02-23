@@ -28,10 +28,16 @@ const deletarProduto = async (id) => {
   if (affectedRows === 1) return { type: null, message: affectedRows };
 };
 
+const procurarNamePorPalavra = async (name) => {
+  const result = await productsModel.procurarNamePorPalavra(name);
+  return { type: null, message: result };
+};
+
 module.exports = {
   findAll,
   findById,
   insert,
   atualizarProducts,
   deletarProduto,
+  procurarNamePorPalavra,
 };
