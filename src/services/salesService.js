@@ -12,7 +12,7 @@ const listaTodasSales = async () => {
 
 const findSaleById = async (id) => {
   const lista = await salesModel.findSaleById(id);
-  if (lista.length === 0) return { type: 'nao encontrou', message: lista };
+  if (lista.length < 1) return { type: 'nao encontrou', message: lista };
   return { type: null, message: lista };
 };
 
@@ -21,15 +21,19 @@ const deletarVenda = async (id) => {
   return { type: null, message: affectedRows };
 };
 
-// const t = async () => {
-//   console.log(await deletarVenda(2));
-// };
-
-// t();
+const atualizarSales = async (id, array) => {
+  await salesModel.atualizarSales(id, array);
+  const obj = {
+    saleId: id,
+    itemsUpdated: array,
+  };
+  return { type: null, message: obj };
+};
 
 module.exports = {
   cadastroVenda,
   listaTodasSales,
   findSaleById,
   deletarVenda,
+  atualizarSales,
 };

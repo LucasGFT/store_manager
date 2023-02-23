@@ -39,8 +39,6 @@ const selecionarSalesProduct = async () => {
 };
 
 const criarObjResposta = async (sales, salesProduct) => {
-  // console.log(sales[0]);
-  // console.log(length);
   const { length } = salesProduct;
   const tt = [];
   for (let index = 0; index < length; index += 1) {
@@ -60,7 +58,6 @@ const criarObjResposta = async (sales, salesProduct) => {
 };
 
 const listaTodasSales = async () => {
-  // console.log(salesProduct);
   const sales = await selecionarSales(); 
   const salesProduct = await selecionarSalesProduct();
   const obj = await criarObjResposta(sales, salesProduct);
@@ -84,12 +81,38 @@ const findSaleById = async (id) => {
   });
   return resposta;
 };
+
 const deletarVenda = async (id) => {
   const [{ affectedRows }] = await connection.execute(
     'DELETE FROM sales WHERE id = ?;',
     [id],
   );
   return affectedRows;
+};
+
+const deletarSalesProductById = async (id) => {
+  const [{ affectedRows }] = await connection.execute(
+    'DELETE FROM sales_products WHERE sale_id = ?;',
+    [id],
+  );
+    return affectedRows;
+  };
+
+const cadastrarNovaVenda = async (id, array) => {
+    const result = array.map(async (element) => {
+      const { productId, quantity } = element;
+      const [{ affectedRows }] = await connection.execute(
+        `INSERT INTO sales_products (
+          sale_id, product_id, quantity) VALUE (${id}, ${productId}, ${quantity})`,
+      );
+      return affectedRows;
+    });
+    return result;
+};
+
+const atualizarSales = async (id, array) => {
+  const affectRow = await deletarSalesProductById(id);
+  if (affectRow > 0) return cadastrarNovaVenda(id, array);
 };
 
 module.exports = {
@@ -101,4 +124,5 @@ module.exports = {
   selecionarSalesProduct,
   criarObjResposta,
   deletarVenda,
+  atualizarSales,
 };

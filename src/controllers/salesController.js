@@ -28,9 +28,17 @@ const deletarVenda = async (req, res) => {
   if (message > 0) return res.status(204).json();
 };
 
+const atualizarSales = async (req, res) => {
+  const { id } = req.params;
+  const array = req.body;
+  const { type, message } = await salesServices.atualizarSales(id, array);
+  if (type === null) return res.status(200).json(message);
+};
+
 module.exports = {
   inserirSales,
   listaTodasSales,
   findSaleById,
   deletarVenda,
+  atualizarSales,
 };
