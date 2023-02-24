@@ -1,13 +1,35 @@
-# :construction: README customizado em construção ! :construction:
-<!-- Olá, Tryber!
-Esse é apenas um arquivo inicial para o README do seu projeto no qual você pode customizar e reutilizar todas as vezes que for executar o trybe-publisher.
+<h2>Store Manager</h2>
 
-Para deixá-lo com a sua cara, basta alterar o seguinte arquivo da sua máquina: ~/.student-repo-publisher/custom/_NEW_README.md
+Nesse projeto foi feito com a arquitetura MSC(Model, Service, Controller)
 
-É essencial que você preencha esse documento por conta própria, ok?
-Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua criatividade brilhar!
-:warning: IMPORTANTE: você precisa deixar nítido:
-- quais arquivos/pastas foram desenvolvidos por você; 
-- quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
-- quais arquivos/pastas foram desenvolvidos pela Trybe.
--->
+
+projeto de gerenciamento de vendas no formato dropshipping em que é possível criar, visualizar, deletar e atualizar produtos e vendas.
+
+<h3>Banco de Dados:</h3>
+
+<h4>MySQL</h4>
+
+<h3>Feito por mim:</h3>
+
+-Tudo na pasta tests/unit
+
+-Tudo nas pastas:
+
+- src/models,
+
+- src/services,
+
+- src/controllers,
+
+- src/routes,
+
+- src/middlewares,
+
+<h4>O restante foi feito pela trybe</h4>
+
+
+---
+
+<h4>As Linguagem usada é Javascript</h4>
+
+Projeto feito no curso de Desenvolvimento Web da Trybe
