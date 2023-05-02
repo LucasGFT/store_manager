@@ -1,8 +1,8 @@
 const { salesServices } = require('../services');
 
-const inserirSales = async (req, res) => {
+const registerSale = async (req, res) => {
   const nome = req.body;
-  const { message } = await salesServices.cadastroVenda(nome);
+  const { message } = await salesServices.registerSale(nome);
   const obj = {
     id: message.id,
     itemsSold: message.itemsSold,
@@ -10,8 +10,8 @@ const inserirSales = async (req, res) => {
   return res.status(201).json(obj);
 };
 
-const listaTodasSales = async (_req, res) => {
-  const { message } = await salesServices.listaTodasSales();
+const listSales = async (_req, res) => {
+  const { message } = await salesServices.listSales();
   return res.status(200).json(message);
 };
 
@@ -22,23 +22,23 @@ const findSaleById = async (req, res) => {
   return res.status(200).json(message);
 };
 
-const deletarVenda = async (req, res) => {
+const deletedSale = async (req, res) => {
   const { id } = req.params;
-  const { message } = await salesServices.deletarVenda(id);
+  const { message } = await salesServices.deletedSale(id);
   if (message > 0) return res.status(204).json();
 };
 
-const atualizarSales = async (req, res) => {
+const updatedSales = async (req, res) => {
   const { id } = req.params;
   const array = req.body;
-  const { type, message } = await salesServices.atualizarSales(id, array);
+  const { type, message } = await salesServices.updatedSales(id, array);
   if (type === null) return res.status(200).json(message);
 };
 
 module.exports = {
-  inserirSales,
-  listaTodasSales,
+  registerSale,
+  listSales,
   findSaleById,
-  deletarVenda,
-  atualizarSales,
+  deletedSale,
+  updatedSales,
 };

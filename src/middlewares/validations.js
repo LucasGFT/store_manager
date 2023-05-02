@@ -1,3 +1,5 @@
+const { productsModel, salesModel } = require('../models');
+
 const validationName = async (req, res, next) => {
   const { name } = req.body;
 
@@ -9,40 +11,39 @@ const validationName = async (req, res, next) => {
   }
   next();
 };
-const { productsModel, salesModel } = require('../models');
 
-const salesValidacaoDois = async (res, _req, next, array) => {
-  const a = await productsModel.findAll();
-  const todosIdProdutos = a.map((element) => element.id);
-  const teste = array.every((element) =>
-    todosIdProdutos.includes(element.productId));
-  if (!teste) {
+const validationFindSale = async (res, _req, next, array) => {
+  const arrayProducts = await productsModel.findAll();
+  const allIdProducts = arrayProducts.map((element) => element.id);
+  const result = array.every((element) =>
+    allIdProducts.includes(element.productId));
+  if (!result) {
     return res.status(404).json({ message: 'Product not found' });
   }
   next();
 };
 
-const salesValidacao = async (req, res, next) => {
-  const array = req.body;
-  const contemProductId = array.every((element) => element.productId);
-  const contemQuantity = array.every((element) => element.quantity);
-  const quantityDiferenteDeZero = array.every(
+const validationSale = async (req, res, next) => {
+  const arrayBody = req.body;
+  const containsProductId = arrayBody.every((element) => element.productId);
+  const containsQuantity = arrayBody.every((element) => element.quantity);
+  const quantityDifferentFromZero = arrayBody.every(
     (element) => element.quantity !== 0,
   );
-  const quantityMinimo = array.every((element) => element.quantity <= 0);
-  if (!contemProductId) {
+  const quantityMinimum = arrayBody.every((element) => element.quantity <= 0);
+  if (!containsProductId) {
     return res.status(400).json({ message: '"productId" is required' });
   }
-  if (!contemQuantity && quantityDiferenteDeZero) {
+  if (!containsQuantity && quantityDifferentFromZero) {
     return res.status(400).json({ message: '"quantity" is required' });
   }
-  if (quantityMinimo) {
+  if (quantityMinimum) {
     return res.status(422).json({ message: '"quantity" must be greater than or equal to 1' });
   }
-  salesValidacaoDois(res, req, next, array);
+  validationFindSale(res, req, next, arrayBody);
 };
 
-const atualizarProducts = async (req, res, next) => {
+const updatedProducts = async (req, res, next) => {
   const { name } = req.body;
   if (name === undefined) {
     return res.status(400).json({ message: '"name" is required' });
@@ -55,7 +56,7 @@ const atualizarProducts = async (req, res, next) => {
   next();
 };
 
-const requisitosDeletarProduto = async (req, res, next) => {
+const deletedProduct = async (req, res, next) => {
   const { id } = req.params;
   const a = await productsModel.findById(id);
   if (a === undefined || a === null) {
@@ -64,7 +65,7 @@ const requisitosDeletarProduto = async (req, res, next) => {
   next();
 };
 
-const requisitosDeletarVenda = async (req, res, next) => {
+const requirementsDeletedSale = async (req, res, next) => {
   const { id } = req.params;
   const a = await salesModel.findSaleById(id);
   if (a.length === 0) {
@@ -73,16 +74,16 @@ const requisitosDeletarVenda = async (req, res, next) => {
   next();
 };
 
-const verificarQuantity = async (req, res) => {
+const verifyQuantity = async (req, res) => {
   const array = req.body;
-  const contemQuantity = array.every(
+  const containsQuantity = array.every(
     (element) => element.quantity !== null && element.quantity !== undefined,
   );
-  const menorQueZero = array.every((element) => element.quantity > 0);
-  if (!contemQuantity) {
+  const lessThanZero = array.every((element) => element.quantity > 0);
+  if (!containsQuantity) {
     return res.status(400).json({ message: '"quantity" is required' });
   }
-  if (!menorQueZero) {
+  if (!lessThanZero) {
     return res
       .status(422)
       .json({ message: '"quantity" must be greater than or equal to 1' });
@@ -90,54 +91,48 @@ const verificarQuantity = async (req, res) => {
   return null;
 };
 
-const testess = (req, listaProduct) => {
-  const a = [];
+const verifyContainsProduct = (req, listProducts) => {
+  const arrayResult = [];
   const array = req.body;
   array.forEach((elem) =>
-    listaProduct.forEach((element) => {
-      if (elem.productId === element.id) a.push('true');
+    listProducts.forEach((element) => {
+      if (elem.productId === element.id) arrayResult.push('true');
     }));
-  const contemProductId = array.every(
+  const containsProduct = array.every(
     (element) => element.productId !== null && element.productId !== undefined,
   );
-  return { primeiro: contemProductId, segundo: a };
+  return { contains: containsProduct, array: arrayResult };
 };
 
-const verificarProductId = async (req, res) => {
-  const listaProduct = await productsModel.findAll();
-  const result = testess(req, listaProduct);
-  if (!result.primeiro) {
+const verifyProducts = async (req, res) => {
+  const listProducts = await productsModel.findAll();
+  const result = verifyContainsProduct(req, listProducts);
+  if (!result.contains) {
     return res.status(400).json({ message: '"productId" is required' });
   }
-  if (result.segundo.length !== req.body.length) {
+  if (result.array.length !== req.body.length) {
     return res.status(404).json({ message: 'Product not found' });
   }
   return null;
 };
 
-const requisitosAtualizarVenda = async (req, res, next) => {
+const requirementsUpdateSale = async (req, res, next) => {
   const { id } = req.params;
   const teste = await salesModel.findSaleById(id);
   if (teste.length < 1) {
     return res.status(404).json({ message: 'Sale not found' });
   } if (teste.length >= 1) {
-    const ss = await verificarQuantity(req, res);
-    const s = await verificarProductId(req, res);
+    const ss = await verifyQuantity(req, res);
+    const s = await verifyProducts(req, res);
     if (s === null && ss === null) next();
   }
 };
 
-// const t = async () => {
-//   await requisitosAtualizarVenda(1);
-// };
-
-// t();
-
 module.exports = {
   validationName,
-  salesValidacao,
-  atualizarProducts,
-  requisitosDeletarProduto,
-  requisitosDeletarVenda,
-  requisitosAtualizarVenda,
+  validationSale,
+  updatedProducts,
+  deletedProduct,
+  requirementsDeletedSale,
+  requirementsUpdateSale,
 };

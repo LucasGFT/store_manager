@@ -12,8 +12,6 @@ const findById = async (productId) => {
     );
     return product;
   };
-  // const t = async () => console.log(await findById(67673) === undefined);
-  // t();
 
 const insert = async ({ name }) => {
   const [{ insertId }] = await connection.execute(
@@ -25,7 +23,7 @@ const insert = async ({ name }) => {
     return pessoaAdicionada;
 };
 
-const atualizarProducts = async (name, id) => {
+const updatedProducts = async (name, id) => {
   const teste = await connection.execute(
     'UPDATE products SET name = ? WHERE id = ?;', [name, id],
   );
@@ -33,14 +31,14 @@ const atualizarProducts = async (name, id) => {
   return affectedRows;
 };
 
-const deletarProduto = async (id) => {
+const deletedProduct = async (id) => {
   const [{ affectedRows }] = await connection.execute(
     'DELETE FROM products WHERE id = ?;', [id],
   );
   return affectedRows;
 };
 
-const procurarNamePorPalavra = async (palavra) => {
+const searchNameByKeyword = async (palavra) => {
   if (palavra === '') {
     const [resultSemNada] = await connection.execute(
       'SELECT * FROM StoreManager.products',
@@ -53,18 +51,11 @@ const procurarNamePorPalavra = async (palavra) => {
   return result;
 };
 
-// const t = async () => {
-//   const a = await procurarNamePorPalavra('');
-//   console.log(a);
-//   return a;
-// };
-// t();
-
 module.exports = {
   findAll,
   findById,
   insert,
-  atualizarProducts,
-  deletarProduto,
-  procurarNamePorPalavra,
+  updatedProducts,
+  deletedProduct,
+  searchNameByKeyword,
 };

@@ -1,15 +1,15 @@
 const connection = require('./connection');
 const { findAll } = require('./productsModel');
 
-const cadastraDataVenda = async () => {
+const registerDateSale = async () => {
   const [{ insertId }] = await connection.execute(
     'INSERT INTO StoreManager.sales (date) VALUE (NOW());',
   );
   return insertId;
 };
 
-const cadastroVenda = async (obj) => {
-  const id = await cadastraDataVenda();
+const registerSale = async (obj) => {
+  const id = await registerDateSale();
   const listProducts = await findAll();
   const novoObj = {
     id,
@@ -25,20 +25,20 @@ const cadastroVenda = async (obj) => {
   return novoObj;
 };
 
-const selecionarSales = async () => {
+const selectSale = async () => {
   const [resultado] = await connection.execute(
     'SELECT * FROM StoreManager.sales;',
   );
   return resultado;
 };
-const selecionarSalesProduct = async () => {
+const selectSaleProduct = async () => {
   const [resultado] = await connection.execute(
     'SELECT * FROM StoreManager.sales_products;',
   );
   return resultado;
 };
 
-const criarObjResposta = async (sales, salesProduct) => {
+const createObjResponse = async (sales, salesProduct) => {
   const { length } = salesProduct;
   const tt = [];
   for (let index = 0; index < length; index += 1) {
@@ -57,20 +57,20 @@ const criarObjResposta = async (sales, salesProduct) => {
   return tt;
 };
 
-const listaTodasSales = async () => {
-  const sales = await selecionarSales(); 
-  const salesProduct = await selecionarSalesProduct();
-  const obj = await criarObjResposta(sales, salesProduct);
+const listSales = async () => {
+  const sales = await selectSale(); 
+  const salesProduct = await selectSaleProduct();
+  const obj = await createObjResponse(sales, salesProduct);
   return obj;
 };
 
 const findSaleById = async (id) => {
-  const sales = await selecionarSales(); 
+  const sales = await selectSale(); 
   const [resultado] = await connection.execute(
     'SELECT * FROM StoreManager.sales_products WHERE sale_id = ?',
     [id],
   );
-  const objAntigo = await criarObjResposta(sales, resultado);
+  const objAntigo = await createObjResponse(sales, resultado);
   const resposta = objAntigo.map((element) => {
     const objCerto = {
       date: element.date,
@@ -82,7 +82,7 @@ const findSaleById = async (id) => {
   return resposta;
 };
 
-const deletarVenda = async (id) => {
+const deletedSale = async (id) => {
   const [{ affectedRows }] = await connection.execute(
     'DELETE FROM sales WHERE id = ?;',
     [id],
@@ -90,7 +90,7 @@ const deletarVenda = async (id) => {
   return affectedRows;
 };
 
-const deletarSalesProductById = async (id) => {
+const deletedSaleProductById = async (id) => {
   const [{ affectedRows }] = await connection.execute(
     'DELETE FROM sales_products WHERE sale_id = ?;',
     [id],
@@ -98,7 +98,7 @@ const deletarSalesProductById = async (id) => {
     return affectedRows;
   };
 
-const cadastrarNovaVenda = async (id, array) => {
+const newSale = async (id, array) => {
     const result = array.map(async (element) => {
       const { productId, quantity } = element;
       const [{ affectedRows }] = await connection.execute(
@@ -110,19 +110,19 @@ const cadastrarNovaVenda = async (id, array) => {
     return result;
 };
 
-const atualizarSales = async (id, array) => {
-  const affectRow = await deletarSalesProductById(id);
-  if (affectRow > 0) return cadastrarNovaVenda(id, array);
+const updatedSales = async (id, array) => {
+  const affectRow = await deletedSaleProductById(id);
+  if (affectRow > 0) return newSale(id, array);
 };
 
 module.exports = {
-  cadastroVenda,
-  cadastraDataVenda,
-  listaTodasSales,
+  registerSale,
+  registerDateSale,
+  listSales,
   findSaleById,
-  selecionarSales,
-  selecionarSalesProduct,
-  criarObjResposta,
-  deletarVenda,
-  atualizarSales,
+  selectSale,
+  selectSaleProduct,
+  createObjResponse,
+  deletedSale,
+  updatedSales,
 };

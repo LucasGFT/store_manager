@@ -8,17 +8,4 @@ const connection = mysql.createPool({
   database: process.env.MYSQL_DATABASE,
 });
 
-// const connection = mysql.createPool({
-//   host: process.env.MYSQL_HOST || 'localhost',
-//   port: process.env.MYSQL_PORT || 33060,
-//   user: 'root',
-//   // environment:
-//   // MYSQL_USER: root
-//   password: 'root',
-//   // MYSQL_PASSWORD: root
-//   database: 'trybecardb',
-//   // MYSQL_DATABASE: trybecardb
-
-// });
-
 module.exports = connection;

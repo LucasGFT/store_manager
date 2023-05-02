@@ -17,19 +17,19 @@ const insert = async (product) => {
   return { type: null, message: produto };
 };
 
-const atualizarProducts = async (name, id) => {
-  const atualiza = await productsModel.atualizarProducts(name, id);
+const updatedProducts = async (name, id) => {
+  const atualiza = await productsModel.updatedProducts(name, id);
   if (atualiza > 0) return { type: null, message: atualiza };
   if (atualiza === 0) return { type: 'Product not found', message: atualiza };
 };
 
-const deletarProduto = async (id) => {
-  const affectedRows = await productsModel.deletarProduto(id);
+const deletedProduct = async (id) => {
+  const affectedRows = await productsModel.deletedProduct(id);
   if (affectedRows === 1) return { type: null, message: affectedRows };
 };
 
-const procurarNamePorPalavra = async (name) => {
-  const result = await productsModel.procurarNamePorPalavra(name);
+const searchNameByKeyword = async (name) => {
+  const result = await productsModel.searchNameByKeyword(name);
   return { type: null, message: result };
 };
 
@@ -37,7 +37,7 @@ module.exports = {
   findAll,
   findById,
   insert,
-  atualizarProducts,
-  deletarProduto,
-  procurarNamePorPalavra,
+  updatedProducts,
+  deletedProduct,
+  searchNameByKeyword,
 };
